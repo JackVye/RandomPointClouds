@@ -1,41 +1,42 @@
 /* Gaussian Random Cube of dimension 1 */
 
 #include <iostream>
+#include <fstream>
 #include <malloc.h>
+#include <string.h>
 #include <stdlib.h> //rand
 #include <limits.h> //maxint
 #include <random>
 
-#define RANDLENGTH 100  //number of random points
-#define DIM 3           //dimension of random point
-
 
 int main(int argc, char *argv[])
 {
+    int Dim = atoi(argv[1]);            //initialise dimension of vectors
+    int Length = atoi(argv[2]);           //Number of random points
+    std::string Title = argv[3];        //initialise title of file saved to
 
-    std::default_random_engine generator;
-    std::normal_distribution<double> distribution(0.0, INT_MAX);
 
-    double *RandList = (double*)malloc(DIM*RANDLENGTH*sizeof(double));
-    int Dim = atoi(argv[1]);
-    std::string Title = argv[2];
-    std::cout << Dim << std::endl;
-    std::cout << Title << std::endl;
+    Title ="bin/" + Title + ".txt";
+    const char* Title_Pointer=Title.c_str();
+    std::ofstream File;
+    File.open(Title_Pointer);
 
-    for(int i=0;i<RANDLENGTH;i++)
-    {
-        for(int j=0;j<DIM;j++)
-        {
-            double Rand = std::normal_distribution()/(float)INT_MAX 0.5;
-            RandList[j*RANDLENGTH+i]=Rand;
-            std::cout << i <<"     " << j << "     "<< RandList[j*RANDLENGTH+i] << std::endl;
-        } 
-    }       
+    std::mt19937 engine(42);
+    std::normal_distribution<> normal(0.5, 0.125); //center 0.5, st deviation 0.125
+
     for(int i=0;i<Dim;i++)
     {
-        std::cout << RandList[i*RANDLENGTH+5]<< "   ";
+        for(int j=0;j<Length;j++)
+        {
+        File << normal(engine) - 0.5 << std::endl;
+        }
     }
-    std::cout<<std::endl;
+
+
+    File.close();
+
+
+
 }
 
 

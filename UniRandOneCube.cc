@@ -5,26 +5,32 @@
 #include <malloc.h>
 #include <stdlib.h> //rand
 #include <limits.h> //maxint
+#include <fstream>
+#include <string.h>
 
-#define RANDLENGTH 100  //number of random points
-#define DIM 3           //dimension of random point
 
-int main()
+int main(int argc, char *argv[])
 {
-    double *RandList = (double*)malloc(DIM*RANDLENGTH*sizeof(double));
-    for(int i=0;i<RANDLENGTH;i++)
+    int Dim = atoi(argv[1]);            //initialise dimension of vectors
+    int Length = atoi(argv[2]);           //Number of random points
+    std::string Title = argv[3];        //initialise title of file saved to
+
+
+    Title ="bin/" + Title + ".txt";
+    const char* Title_Pointer=Title.c_str();
+    std::ofstream File;
+    File.open(Title_Pointer);
+
+
+
+    for(int i=0;i<Dim;i++)
     {
-        for(int j=0;j<DIM;j++)
+        for(int j=0;j<Length;j++)
         {
             double Rand = rand()/(float)INT_MAX - 0.5;
-            RandList[j*RANDLENGTH+i]=Rand;
-            std::cout << i <<"     " << j << "     "<< RandList[j*RANDLENGTH+i] << std::endl;
+            File << Rand - 0.5 << std::endl;
         } 
     }       
 
-    std::cout << RandList[5]<<" "<< RandList[RANDLENGTH+5] <<" "<< RandList[2*RANDLENGTH+5]<< std::endl;
 }
 
-
-# RandomPointClouds
-# RandomPointClouds

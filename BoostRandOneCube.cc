@@ -2,6 +2,7 @@
 
 
 #include <iostream>
+#include <fstream>
 #include <malloc.h>
 #include <string.h>
 #include <stdlib.h> //rand
@@ -10,32 +11,33 @@
 #include <boost/random/uniform_int_distribution.hpp>
 
 #define RANDLENGTH 100  //number of random points
-#define DIM 3           //dimension of random point
 
 boost::random::mt19937 gen;
 
 int main(int argc, char *argv[])
 {
-    double *RandList = (double*)malloc(DIM*RANDLENGTH*sizeof(double));
-    int Dim = atoi(argv[1]);
-    std::string Title = argv[2];
-    std::cout << Dim << std::endl;
-    std::cout << Title << std::endl;
-    
+    int Dim = atoi(argv[1]);            //initialise dimension of vectors
+    int Length = atoi(argv[2]);           //Number of random points
+    std::string Title = argv[3];        //initialise title of file saved to
 
-    for(int i=0;i<RANDLENGTH;i++)
-    {
-        for(int j=0;j<Dim;j++)
-        {
-            boost::random::uniform_int_distribution<>dist(0,INT_MAX);
-            RandList[j*RANDLENGTH+i]=dist(gen)/(float)INT_MAX - 0.5;
-        } 
-    }       
+    Title ="bin/" + Title + ".txt";
+    const char* Title_Pointer=Title.c_str();
+    std::ofstream File;
+    File.open(Title_Pointer);
+
+
     for(int i=0;i<Dim;i++)
     {
-        std::cout << RandList[i*RANDLENGTH+5]<< "   ";
-    }
-    std::cout<<std::endl;
+        for(int j=0;j<Length;j++)
+        {
+            boost::random::uniform_int_distribution<>dist(0,INT_MAX);
+            File << dist(gen)/(float)INT_MAX - 0.5 << std::endl;
+        } 
+    }       
+    File.close();
+
+
+
 }
 
 
